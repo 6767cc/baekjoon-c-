@@ -5,67 +5,76 @@
 
 using namespace std;
 
-int sea[60][60];
+int w, h;
+int map[51][51];
+bool visited[51][51];
 int X[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
-
 int Y[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
 
-void dfs(int x, int y, int i, int j)
+void reset() 
 {
-    sea[x][y] = 0;
-
-    for (int C = 0; C < 8; C++)
+    for (int i = 0; i < h; i++) 
     {
-        int xx = x + X[C];
-        int yy = y + Y[C];
-
-        if (xx < 0 || yy < 0 || xx > i || yy > j) continue;
-
-        if (sea[xx][yy])
+        for (int j = 0; j < w; j++) 
         {
-            dfs(xx, yy, i, j);
+            map[i][j] = 0;
+            visited[i][j] = 0;
+        }
+    }
+}
+
+void DFS(int x, int y) 
+{
+    visited[x][y] = true;
+
+    for (int i = 0; i < 8; i++) 
+    {
+        int nx = x + X[i];
+        int ny = y + Y[i];
+
+        if (ny < 0 || nx < 0 || nx >= h || ny >= w) continue;
+
+        if (map[nx][ny] == 1 && visited[nx][ny] == 0) 
+        {
+            DFS(nx, ny);
         }
     }
 }
 
 int main()
 {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-
-    int i, j;
     vector<int> ans;
 
-    cin >> i >> j;
-    while (i != 0 || j != 0)
+    while (true)
     {
-        int cot = 0;
+        reset();
 
-        for (int x = 0; x < j; x++)
-            for (int y = 0; y < i; y++)
-                cin >> sea[x][y];
+        cin >> w >> h;
 
-        for (int x = 0; x < j; x++)
-            for (int y = 0; y < i; y++)
+        if (w == 0 && h == 0) break;
+
+        for (int i = 0; i < h; i++)
+            for (int j = 0; j < w; j++)
+                cin >> map[i][j];
+
+        int cnt = 0;
+
+        for (int i = 0; i < h; i++)
+        {
+            for (int j = 0; j < w; j++)
             {
-                if (sea[x][y])
+                if (map[i][j] == 1 && visited[i][j] == 0)
                 {
-                    dfs(x, y, i, j);
-                    cot++;
+                    DFS(i, j);
+                    cnt++;
                 }
             }
-
-        ans.push_back(cot);
-
-        for (int x = 0; x < j; x++)
-            for (int y = 0; y < i; y++)
-                sea[i][j] = 0;
-        cin >> i >> j;
+        }
+        ans.push_back(cnt);
     }
 
-    for (int Ans = 0; Ans < ans.size(); Ans++)
+    for (int i : ans)
     {
-        cout << ans[Ans] << '\n';
+        cout << i << "\n";
     }
 }

@@ -1,8 +1,9 @@
 ﻿#include <iostream>
-#include <string>
-#include <algorithm>
-#include <utility>
+#include <vector>
 using namespace std;
+
+string map[51];
+
 string WB[8] = {
         "WBWBWBWB",
         "BWBWBWBW",
@@ -23,7 +24,9 @@ string BW[8] = {
         "BWBWBWBW",
         "WBWBWBWB"
 };
-string board[50];
+
+vector<int> Ans;
+
 int WB_cnt(int x, int y)
 {
     int cnt = 0;
@@ -31,13 +34,13 @@ int WB_cnt(int x, int y)
     {
         for (int j = 0; j < 8; j++)
         {
-            if (board[x + i][y + j] != WB[i][j])
+            if (map[x + i][y + j] != WB[i][j])
                 cnt++;
         }
-
     }
     return cnt;
 }
+
 int BW_cnt(int x, int y)
 {
     int cnt = 0;
@@ -45,32 +48,44 @@ int BW_cnt(int x, int y)
     {
         for (int j = 0; j < 8; j++)
         {
-            if (board[x + i][y + j] != BW[i][j])
+            if (map[x + i][y + j] != BW[i][j])
                 cnt++;
         }
-
     }
     return cnt;
 }
-int main() {
-    int size[2];
-    int cnt;
-    int min_val = 12345;
-    pair<int, int> p1;
-    cin >> p1.first >> p1.second;
-    for (int i = 0; i < p1.first; i++)
-        cin >> board[i];
-    for (int i = 0; i + 8 <= p1.first; i++)
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    int N, M;
+    int BWA, WBA;
+
+    int Anser = 32;
+    cin >> N >> M;
+
+    for (int i = 0; i < N; i++)
+            cin >> map[i];
+
+    for (int i = 0; i < N - 7; i++)
     {
-        for (int j = 0; j + 8 <= p1.second; j++)
+        for (int j = 0; j < M - 7; j++)
         {
-            int tmp;
-            tmp = min(WB_cnt(i, j), BW_cnt(i, j));
-            if (tmp < min_val) {
-                min_val = tmp;
-            }
+            WBA = WB_cnt(i, j);
+            BWA = BW_cnt(i, j);
+
+            int Min = min(BWA, WBA);
+            Ans.push_back(Min);
         }
     }
-    cout << min_val;
-    return 0;
+
+    for (int ans : Ans)
+    {
+        if (Anser > ans) Anser = ans;
+    }
+
+    cout << Anser;
 }
