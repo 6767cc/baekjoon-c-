@@ -35,6 +35,10 @@ void dfs(int row, int col, char team) {
 
 int main() 
 {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
     cin >> N >> M;
     soldiers.resize(M, vector<char>(N));
     visited.resize(M, vector<bool>(N, false));
@@ -49,15 +53,29 @@ int main()
         {
             if (!visited[i][j]) 
             {
+                powerW = 0;  
+                powerB = 0;
+
                 if (soldiers[i][j] == 'W')
                     dfs(i, j, 'W');
                 else
                     dfs(i, j, 'B');
+
+                if (powerW != 0 && powerB == 0)
+                {
+                    ansW += powerW * powerW;
+                }
+
+                if (powerW == 0 && powerB != 0)
+                {
+                    ansB += powerB * powerB;
+                }
+
             }
         }
     }
 
-    cout << powerW << ' ' << powerB << endl;
+    cout << ansW << ' ' << ansB << endl;
 
     return 0;
 }
