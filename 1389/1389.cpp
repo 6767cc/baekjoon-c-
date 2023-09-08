@@ -5,8 +5,6 @@
 
 using namespace std;
 
-const int MAX = 0xfffffff;
-
 int map[101][101];
 int N, M;
 
@@ -29,7 +27,7 @@ int main()
 
     for (int i = 1; i <= N; i++)
     {
-        for (int j = 1; j <= M; j++) 
+        for (int j = 1; j <= N; j++) 
         {
             if (i != j && map[i][j] != 1)
             {
