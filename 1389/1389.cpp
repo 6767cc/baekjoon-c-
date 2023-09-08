@@ -65,7 +65,7 @@ int main()
     for (int i = 1; i <= N; i++)
     {
         int bfs = BFS(i);
-        if (Beforebfs == NULL || Beforebfs > bfs) ans = i;
+        if (Beforebfs == NULL || Beforebfs >= bfs) ans = i;
 
         Beforebfs = bfs;
         memset(PointPassCheck, false, sizeof(PointPassCheck));
