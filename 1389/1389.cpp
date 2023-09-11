@@ -2,54 +2,17 @@
 //
 
 #include <iostream>
-#include <vector>
-#include <queue>
-#include <memory.h>
 
 using namespace std;
 
-vector<int> map[101];
+int map[101][101];
 int N, M;
-
-bool PointPassCheck[101];
-
-int BFS(int StrantNumber)
-{
-    int a = 0, KBN = 0;
-
-    queue<int> q;
-    q.push(StrantNumber);
-    PointPassCheck[StrantNumber] = true;
-
-    while (!q.empty())
-    {
-        a++;
-
-        int pass = q.front();
-        q.pop();
-
-        for (int i : map[pass])
-        {
-            if (!PointPassCheck[i])
-            {
-                q.push(i);
-                PointPassCheck[i] = true;
-                KBN += a;
-            }
-        }
-    }
-
-    return KBN;
-}
 
 int main()
 {
-
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    int ans;
-    int Beforebfs = NULL;
 
     cin >> N >> M;
 
@@ -58,17 +21,51 @@ int main()
         int FriendA, FriendB;
         cin >> FriendA >> FriendB;
 
-        map[FriendA].push_back(FriendB);
-        map[FriendB].push_back(FriendA);
+        map[FriendA][FriendB] = 1;
+        map[FriendB][FriendA] = 1;
     }
 
     for (int i = 1; i <= N; i++)
     {
-        int bfs = BFS(i);
-        if (Beforebfs == NULL || Beforebfs >= bfs) ans = i;
+        for (int j = 1; j <= N; j++) 
+        {
+            if (i != j && map[i][j] != 1)
+            {
+                map[i][j] = 0xfffffff;
+            }
+        }
+    }
 
-        Beforebfs = bfs;
-        memset(PointPassCheck, false, sizeof(PointPassCheck));
+    for (int i = 1; i <= N; i++) 
+    {
+        for (int j = 1; j <= N; j++) 
+        {
+            for (int k = 1; k <= N; k++) 
+            {
+                if (map[j][i] + map[i][k] < map[j][k]) 
+                {
+                    map[j][k] = map[j][i] + map[i][k];
+                }
+
+            }
+        }
+    }
+    
+    int V = 0xfffffff;
+    int ans;
+
+    for (int i = 1; i <= N; i++) 
+    {
+        int tmp = 0;
+        for (int j = 1; j <= N; j++) 
+        {
+            tmp += map[i][j];
+        }
+        if (tmp < V) 
+        {
+            V = tmp;
+            ans = i;
+        }
     }
 
     cout << ans;
