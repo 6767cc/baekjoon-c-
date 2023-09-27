@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "baekjoon(c++)", "baekjoon(c++)\baekjoon(c++).vcxproj", "{0EBB4E4E-51F6-40E2-AFE6-C967C66D5E9E}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "1009", "1009\1009.vcxproj", "{809694D0-B22A-4D7D-B87C-365E2BEDD82E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "1756", "1756\1756.vcxproj", "{E427A718-6FF4-4850-A799-3F52C1F14E13}"
@@ -125,14 +123,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0EBB4E4E-51F6-40E2-AFE6-C967C66D5E9E}.Debug|x64.ActiveCfg = Debug|x64
-		{0EBB4E4E-51F6-40E2-AFE6-C967C66D5E9E}.Debug|x64.Build.0 = Debug|x64
-		{0EBB4E4E-51F6-40E2-AFE6-C967C66D5E9E}.Debug|x86.ActiveCfg = Debug|Win32
-		{0EBB4E4E-51F6-40E2-AFE6-C967C66D5E9E}.Debug|x86.Build.0 = Debug|Win32
-		{0EBB4E4E-51F6-40E2-AFE6-C967C66D5E9E}.Release|x64.ActiveCfg = Release|x64
-		{0EBB4E4E-51F6-40E2-AFE6-C967C66D5E9E}.Release|x64.Build.0 = Release|x64
-		{0EBB4E4E-51F6-40E2-AFE6-C967C66D5E9E}.Release|x86.ActiveCfg = Release|Win32
-		{0EBB4E4E-51F6-40E2-AFE6-C967C66D5E9E}.Release|x86.Build.0 = Release|Win32
 		{809694D0-B22A-4D7D-B87C-365E2BEDD82E}.Debug|x64.ActiveCfg = Debug|x64
 		{809694D0-B22A-4D7D-B87C-365E2BEDD82E}.Debug|x64.Build.0 = Debug|x64
 		{809694D0-B22A-4D7D-B87C-365E2BEDD82E}.Debug|x86.ActiveCfg = Debug|Win32
