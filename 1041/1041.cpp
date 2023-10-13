@@ -7,20 +7,14 @@
 using namespace std;
 
 long long N;
-int Dice[7];
-long long DiceShowingFace[4];
+long long Dice[6];
+
 long long ans;
 
-void sol()
-{
-    DiceShowingFace[1] = (N - 2) * (5 * N - 6);
-    DiceShowingFace[2] = 8 * N - 12;
-    DiceShowingFace[3] = 4;
-    
-    ans += DiceShowingFace[1] * Dice[1];
-    ans += DiceShowingFace[2] * (Dice[1] + Dice[2]);
-    ans += DiceShowingFace[3] * (Dice[1] + Dice[2] + Dice[3]);
-}
+long long TopNumber, SumNumber;
+
+long long Min1 = 51, Min2 = 101, Min3 = 151;
+
 
 int main()
 {
@@ -30,23 +24,37 @@ int main()
 
     cin >> N;
 
-    for (int i = 1; i <= 6; i++)
+    for (int i = 0; i < 6; i++)
     {
         cin >> Dice[i];
+        SumNumber += Dice[i];
+        TopNumber = max(Dice[i], TopNumber);
     }
 
-    sort(Dice, Dice + 7);
-
-    if (N == 1) 
+    //마주보지 않는 가장 작은 주사위눈 조합 만들기
+    for (int i = 0; i < 6; i++)
     {
-        for (int i = 1; i <= 5; i++)
-            ans += Dice[i];
+        Min1 = min(Min1, Dice[i]);
+        for (int j = i + 1; j < 6; j++)
+        {
+            if (i + j == 5) continue;
+            Min2 = min(Min2, Dice[i] + Dice[j]);
+            
+            for (int k = j + 1; k < 6; k++)
+            {
+                if (i + k == 5 || j + k == 5) continue;
+                Min3 = min(Min3, Dice[i] + Dice[j] + Dice[k]);
+            }
+        }
+    }
 
-        cout << ans;
-    }
-    else 
+    if (N == 1) ans = SumNumber - TopNumber;
+    else
     {
-        sol();
-        cout << ans;
+        ans += ((N - 2) * (5 * N - 6)) * Min1;
+        ans += (8 * N - 12) * Min2;
+        ans += 4 * Min3;
     }
+
+    cout << ans;
 }
