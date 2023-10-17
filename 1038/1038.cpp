@@ -2,51 +2,50 @@
 //
 
 #include <iostream>
-#include <string>
+#include<queue>
 
 using namespace std;
 
-string Number;
-
 int N;
-bool Pass;
+int idx;
+
+queue<long long> q;
+long long arr[2000];
 
 int main()
 {
     cin >> N;
-    if (N == 0) cout << 0;
+
+    if (N < 10) cout << N;
+    else if (N > 1022) cout << -1;//힌트 받음 - 최대크기는 9876543210
     else
     {
-        int i = 1;
-        int number = 1;
-
-        while (i < N)
+        //0-9까지는 위에서 이미 처리 함
+        for (int i = 0; i < 10; i++)
         {
-            //스트링으로 바꾸고
-            Number = to_string(number);
-            Pass = true;
-            int Ch = 10;
-
-            //그걸 체크한 다음
-            for(char num : Number)
-            {
-                int Num = num - '0';
-                
-                if (Num < Ch) Ch = Num;
-                else 
-                {
-                    Pass = false;
-                    break;
-                }
-            }
-
-            //체크가 제대로 돌아갔다면 i를 ++
-            if (Pass) i++;
-
-            //그 다음 숫자 확인
-            number++;
+            q.push(i);
+            arr[i] = i;
         }
 
-        cout << number;
+        idx = 9;
+
+        while (idx <= N)
+        {
+            if (q.empty()) break;
+
+            long long a = q.front();
+            q.pop();
+            int POW = a % 10;
+
+            //일의자리 숫자만큼 나아감
+            for (int i = 0; i < POW; i++)
+            {
+                idx++;
+                q.push(a * 10 + i);
+                arr[idx] = a * 10 + i;
+            }
+        }
+
+        cout << arr[N];
     }
 }
