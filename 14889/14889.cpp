@@ -4,33 +4,56 @@
 
 using namespace std;
 
-void input(int N, int arr[20][20])
+int N;
+int Member[21][21];
+bool Ch[21];
+int ans = 0xfffffff;
+
+void sol(int C, int pos);
 {
-    int n;
+	if (x == N / 2) // 카운트수가 정원의 1/2이 됐을 때 능력치합 계산
+	{
+		int StartPoint = 0;
+		int LinkPoint = 0;
 
-    for (int i = 0; i < N; i++)
-    {
-        for (int j = 0; j < N; j++)
-        {
-            cin >> n;
-            arr[i][j] = n;
-        }
-    }
-}
+		for (int i = 1; i <= N; i++)
+		{
+			for (int j = 1; j <= N; j++)
+			{
+				if (Ch[i] == true && Ch[j] == true) StartPoint += Mumber[i][j];
+				if (Ch[i] == false && Ch[j] == false) LinkPoint += Mumber[i][j];
+			}
+		}
 
-void sol(int N, int arr[20][20])
-{
+		int abs;
+		if (StartPoint > LinkPoint) abs = StartPoint - LinkPoint;
+		else abs = LinkPoint - StartPoint;
 
-    //
+		if (ans > abs) ans = abs;
+
+	}
+
+	for (int i = pos; i < N; i++)
+	{
+		Ch[i] = true;
+		DFS(C + 1, i + 1);
+		Ch[i] = false;
+	}
 }
 
 int main()
 {
-    int N;
-    int Member[20][20];
-
     cin >> N;
 
-    input(N, Member);
-    sol(N, Member);
+    for (int i = 1; i <= N; i++)
+    {
+        for (int j = 1; j <= N; j++)
+        {
+            cin >> Member[i][j];
+        }
+    }
+
+    sol(0, 1);
+
+    cout << ans;
 }
