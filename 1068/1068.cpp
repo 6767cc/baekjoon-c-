@@ -8,34 +8,27 @@ using namespace std;
 
 int N, CutNode;
 
-//first가 시작점, seconed가 끝점
 vector<int>Tree[51];
-vector<int>ChNode;
-vector<int> Cutvec;
+int rootNode;
 int ans = 0;
 
-void Clear(int CutNode)
+int LeafCh(int L)
 {
-    for (int i = 0; i < Tree[CutNode].size(); i++)
-    {
-        Clear(Tree[CutNode][i]);
-    }
-
-    Tree[CutNode].clear();
-}
-
-void LeafCh(int L)
-{
-    if (Tree[L].empty())
+    if (L == CutNode) return -1;
+    if (!Tree[L].size())
     {
         ans++;
-        return;
+        return 0;
     }
 
     for (int i = 0; i < Tree[L].size(); i++)
     {
-        LeafCh(Tree[L][i]);
+        int T = LeafCh(Tree[L][i]);
+        if (T == -1 && Tree[L].size() == 1)
+            ans++;
     }
+
+    return 0;
 }
 
 int main()
@@ -52,17 +45,11 @@ int main()
         {
             Tree[Node].push_back(i);
         }
-        else ChNode.push_back(i);
+        else rootNode = i;
     }
 
     cin >> CutNode;
-    Clear(CutNode);
+    LeafCh(rootNode);
 
-    for (int chNode : ChNode)
-    {
-        LeafCh(chNode);
-    }
-
-    //자기 자신이 카운트 된 경우를 뺀 것
-    cout << ans - 1;
+    cout << ans;
 }
