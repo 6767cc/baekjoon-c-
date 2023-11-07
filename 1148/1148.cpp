@@ -1,14 +1,15 @@
 ﻿#include <iostream>
 #include <vector>
-#include<memory.h>
-
+#include <memory.h>
+#include <algorithm>
 using namespace std;
 
 vector<string> Word;
 vector<string> AlphabetList;
 
 vector<pair<char, int>> ChAlphabet;
-bool Ch[10];
+bool AC[26];
+bool ishit[10];
 
 vector<char> minans;
 vector<char> maxans;
@@ -25,86 +26,114 @@ int main()
     }
 
     cin >> input;
+
     while (input != "#")
     {
         AlphabetList.push_back(input);
         cin >> input;
     }
 
-    for (string Alphabetlist : AlphabetList)
+    for (string alpabetlist : AlphabetList)
     {
         ChAlphabet.clear();
+        memset(AC, false, sizeof(AC));
 
-        for (char A : Alphabetlist)
+        for (char alpabet : alpabetlist)
         {
-            ChAlphabet.push_back(pair<char, int>(A, 0));
+            if (!AC[alpabet - 'a'])
+            {
+                AC[alpabet - 'a'] = true;
+                ChAlphabet.push_back(pair<char, int>(alpabet, 0));
+            }
         }
 
         for (string word : Word)
         {
-            bool CreateFailed = false;
+            memset(ishit, false, sizeof(ishit));
+            bool Ch1 = true;
 
-            for (char alphabet : word)
+            for (char WS : word)
             {
-                int C = 0;
-                memset(Ch, false, sizeof(Ch));
+                if (ishit[WS - 'a']) continue;
 
-                for (int i = 1; i <= 9; i++)
+                bool isNotCreate = false;
+
+                for (pair<char, int> chalphabet : ChAlphabet)
                 {
-                    if (alphabet == ChAlphabet[i-1].first)
+                    if(chalphabet.first == WS)
                     {
-                        Ch[i] = true;
+                        ishit[WS - 'a'] = true;
                         continue;
                     }
-                    else C++;
+
+                    isNotCreate = true;
                 }
 
-                if (C == 9)
+                if (isNotCreate)
                 {
-                    CreateFailed = true;
+                    Ch1 = false;
                     break;
                 }
             }
 
-            if (!CreateFailed)
+            if (Ch1) 
             {
-                for (int i = 0; i < 9; i++)
+                for (int i = 0; i < 26; i++)
                 {
-                    if (Ch[i + 1]) ChAlphabet[i].second++;
+                    if (AC[i]) 
+                    {
+                        for (pair<char, int> a : ChAlphabet)
+                        {
+                            if (a.first - 'a' == i) a.second++;
+                        }
+                    }
                 }
             }
         }
 
-        //정리된 것들중 가장 큰 것과 가장 작은 것 
-        int min = 200001;
-        int max = -1;
-        minans.clear();
-        maxans.clear();
+        int Max = -1;
+        int Min = 20001;
 
         for (pair<char, int> a : ChAlphabet)
         {
-            if (min > a.second) min = a.second;
-            if (max < a.second) max = a.second;
+            if (a.second > Max)
+            {
+                Max = a.second;
+                maxans.clear();
+                maxans.push_back(a.first);
+            }
+            else if(a.second == Max)
+            {
+                maxans.push_back(a.first);
+            }
+
+            if (a.second < Min)
+            {
+                Min = a.second;
+                minans.clear();
+                minans.push_back(a.first);
+            }
+            else if(a.second == Min)
+            {
+                minans.push_back(a.first);
+            }
         }
 
-        for (pair<char, int> a : ChAlphabet)
+        sort(maxans.begin(), maxans.end());
+        sort(minans.begin(), minans.end());
+
+        for(char minA : minans)
         {
-            if (a.second == min) minans.push_back(a.first);
-            if (a.second == max) maxans.push_back(a.first);
+            cout << minA;
         }
 
-        for (char m : minans)
+        cout << ' ' << Min << ' ';
+
+        for (char MaxA : maxans)
         {
-            cout << m;
+            cout << MaxA;
         }
 
-        cout << " " << min << " ";
-
-        for (char m : maxans)
-        {
-            cout << m;
-        }
-
-        cout << " " << min << "\n";
+        cout << ' ' << Max << '\n';
     }
 }

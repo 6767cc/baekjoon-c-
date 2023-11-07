@@ -6,23 +6,21 @@
 using namespace std;
 
 string map[51];
-bool Map[51][51];
 int M, N, K;
-
-vector<bool[51][51]> MapList;
 
 int main()
 {
     cin >> M >> N;
+
     for (int i = 0; i < M; i++)
     {
         cin >> map[i];
-
-        for (int j = 0; j < N; j++)
-        {
-            if (map[i][j] == '0') Map[i][j] = false;
-            else Map[i][j] = true;
-        }
     }
     cin >> K;
+
+    for (int i = 0; i < N; i++)
+    {
+        int Z = 0;
+        for()
+    }
 }
